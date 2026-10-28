@@ -1,0 +1,13 @@
+# Замени на свой домен (или бесплатный поддомен, например kitsune.is-a.dev).
+# Caddy сам выпустит и продлит сертификат Let's Encrypt.
+your-domain.example {
+	encode zstd gzip
+	reverse_proxy web:3000 {
+		# пробрасываем реальный протокол и хост — от них строится ссылка в QR-коде
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Forwarded-Host {host}
+	}
+	log {
+		output stdout
+	}
+}
